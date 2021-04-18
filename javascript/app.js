@@ -1,10 +1,9 @@
 'use strict';
-
 const imageList = ['bag','banana','bathroom','boots','breakfast','bubblegum','chair',
   'cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun',
   'unicorn','usb','water-can','wine-glass'
 ];
-let counter = 1;
+let counter = 0;
 let firstImage = document.getElementById('first-image');
 // console.log(firstImage);
 let secondImage = document.getElementById('second-image');
@@ -14,7 +13,8 @@ let section = document.getElementById('main-section');
 // console.log(thirdImage);
 let indexOne;
 let indexTwo;
-let indexthree;
+let indexThree;
+let attempt=25;
 let imageId= [firstImage,secondImage,thirdImage];
 
   Images.all = [];
@@ -58,57 +58,44 @@ Images.prototype.generateExtension = function(){
   function render(){
     indexOne=randomNumber();
     indexTwo=randomNumber();
-    indexthree=randomNumber();
-    while(indexOne===indexTwo || indexOne===indexthree || indexTwo===indexthree){
+    indexThree=randomNumber();
+    while(indexOne===indexTwo || indexOne===indexThree || indexTwo===indexThree){
     indexOne=randomNumber();
     indexTwo=randomNumber();
     }
+    Images.all[indexOne].visits++;
+    Images.all[indexTwo].visits++;
+    Images.all[indexThree].visits++;
     firstImage.setAttribute('src',Images.all[indexOne].path)
     secondImage.setAttribute('src',Images.all[indexTwo].path)
-    thirdImage.setAttribute('src',Images.all[indexthree].path)
+    thirdImage.setAttribute('src',Images.all[indexThree].path)
     }
     render();
 
-    section.addEventListener('click', handleClick);
-
-    function handleClick(event) {
-      if (counter>25) {
-        section.removeEventListener('click', handleClick);
-      }
-      else{
-        console.log('counter =' ,counter);
-        console.log('Target', event.target.id);
-        if (event.target.id !== 'main-section') {
-          for (let i = 0; i < Images.all.length; i++) {
-            if (Images.all[i].name === event.target.title) {
-              Images.all[i].votes++;
-              console.log('this is the voters for' + Images.all[i].name + ' ' + Images.all[i].votes);
-              break;
-            }
-          }
-          console.log(Images.all);
-          if(counter !== 25){
-            counter++;
-            render();
-          }
-    
-    
-          else if (counter === 25) {
-            showData();
-            counter++;
-          }
+    firstImage.addEventListener('click', clickHandle);
+    secondImage.addEventListener('click', clickHandle);
+    thirdImage.addEventListener('click', clickHandle);
+    function clickHandle(event) {
+      counter++;
+      if (attempt> counter) {
+        if(event.target.id === 'first-image'){
+          Images.all[indexOne].votes++;
+        }else if(event.target.id === 'second-image'){
+          Images.all[indexTwo].votes++;
+        }else{
+          Images.all[indexThree].votes++;
         }
+        render();
+      }else{let ul=document.getElementById('list');
+        for (let i = 0; i < Images.all.length; i++) {
+          let li = document.createElement('li');
+          ul.appendChild(li);
+          li.textContent=`${Images.all[i].name} has been shown ${Images.all[i].visits} , and it has ${Images.all[i].votes} votes`;
+        }
+        firstImage.removeEventListener('click',clickHandle);
+        secondImage.removeEventListener('click',clickHandle);
+        thirdImage.removeEventListener('click',clickHandle);
       }
     }
-    let results = document.getElementById('results');
-    let ulEl = document.createElement('ul');
-    results.appendChild(ulEl);
-    let liEl = document.createElement('li');
-    function showData(){
-      for (let i = 0; i < Images.all.length; i++) {
-        liEl = document.createElement('li');
-        ulEl.appendChild(liEl);
-        liEl.textContent = `${Images.all[i].name} had ${Images.all[i].votes}, and was seen ${Images.all[i].visits} times.`;
-      }
+   
     
-    }
