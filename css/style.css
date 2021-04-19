@@ -40,30 +40,34 @@ header h1{
 }
 
 
-.results{
+#list{
     width: 21%;
     display: inline-block;
     margin-left: 3%;
 }
 
-.results ul{
+#list ul{
     line-height: 1.2;
     font-size: larger;
 }
-.results li{
+#list li{
     list-style-type: disc;
 }
 
-.main-section{
-    width: 66%;
+ .main-section{
+    /* width: 66%; */
     display: inline-block;
+    margin-bottom:100px;
+    margin-left: 450px;
+    padding: auto;
 }
 #lorem{
     margin-top: 3%;
     font-size: larger;
     line-height: 1.7;
     font-weight:500;
-}
+} 
+
 
   footer{
     width: 100%;
