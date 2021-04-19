@@ -11,6 +11,7 @@ let secondImage = document.getElementById('second-image');
 let thirdImage = document.getElementById('third-image');
 let section = document.getElementById('main-section');
 // console.log(thirdImage);
+let button =document.getElementById('btn');
 let indexOne;
 let indexTwo;
 let indexThree;
@@ -72,9 +73,7 @@ Images.prototype.generateExtension = function(){
     }
     render();
 
-    firstImage.addEventListener('click', clickHandle);
-    secondImage.addEventListener('click', clickHandle);
-    thirdImage.addEventListener('click', clickHandle);
+    section.addEventListener('click', clickHandle);
     function clickHandle(event) {
       counter++;
       if (attempt> counter) {
@@ -86,16 +85,17 @@ Images.prototype.generateExtension = function(){
           Images.all[indexThree].votes++;
         }
         render();
-      }else{let ul=document.getElementById('list');
+      }else{
+        section.removeEventListener('click',clickHandle);
+        button.addEventListener('click',result);
+      }
+    }
+    
+    function result(){
+      let ul=document.getElementById('list');
         for (let i = 0; i < Images.all.length; i++) {
           let li = document.createElement('li');
           ul.appendChild(li);
           li.textContent=`${Images.all[i].name} has been shown ${Images.all[i].visits} , and it has ${Images.all[i].votes} votes`;
         }
-        firstImage.removeEventListener('click',clickHandle);
-        secondImage.removeEventListener('click',clickHandle);
-        thirdImage.removeEventListener('click',clickHandle);
-      }
     }
-   
-    
