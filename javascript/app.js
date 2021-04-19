@@ -11,7 +11,7 @@ let secondImage = document.getElementById('second-image');
 let thirdImage = document.getElementById('third-image');
 let section = document.getElementById('main-section');
 // console.log(thirdImage);
-let button =document.getElementById('btn');
+// let button =document.getElementById('btn');
 let indexOne;
 let indexTwo;
 let indexThree;
@@ -85,17 +85,15 @@ Images.prototype.generateExtension = function(){
           Images.all[indexThree].votes++;
         }
         render();
-      }else{
-        section.removeEventListener('click',clickHandle);
-        button.addEventListener('click',result);
-      }
-    }
-    
-    function result(){
-      let ul=document.getElementById('list');
+      }else{let ul=document.getElementById('list');
         for (let i = 0; i < Images.all.length; i++) {
           let li = document.createElement('li');
           ul.appendChild(li);
           li.textContent=`${Images.all[i].name} has been shown ${Images.all[i].visits} , and it has ${Images.all[i].votes} votes`;
         }
+        section.removeEventListener('click',clickHandle);
+        // button.addEventListener('click',result);
+      }
     }
+    
+    
