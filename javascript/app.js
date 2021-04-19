@@ -46,6 +46,7 @@ Images.prototype.generateExtension = function(){
   };
   
   
+  
   for (let i = 0; i < imageList.length; i++) {
     new Images(imageList[i]);
     Images.all[i].generateExtension();
