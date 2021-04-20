@@ -28,6 +28,7 @@ function Images(name){
   this.visits = 0;
   Images.all.push(this);
 }
+
 Images.prototype.generateExtension = function(){
     if (this.name === 'usb') {
       this.ext = 'gif';
@@ -56,6 +57,7 @@ Images.prototype.generateExtension = function(){
   function randomNumber() {
     return Math.floor(Math.random() * Images.all.length);
   };
+
    let indexNum=[];
    let indexcheck1;
    let indexcheck2;
@@ -86,8 +88,11 @@ Images.prototype.generateExtension = function(){
     render();
     
     section.addEventListener('click', clickHandle);
+    
+    getLocalStorageItem();
     function clickHandle(event) {
       counter++;
+     
       if (attempt> counter) {
         if(event.target.id === 'first-image'){
           Images.all[indexOne].votes++;
@@ -97,6 +102,8 @@ Images.prototype.generateExtension = function(){
           Images.all[indexThree].votes++;
         }
         render();
+        showProductsItem();
+       
       }else{ let ul=document.getElementById('list');
         for (let i = 0; i < Images.all.length; i++) {
           let li = document.createElement('li');
@@ -108,6 +115,8 @@ Images.prototype.generateExtension = function(){
         showStatistics();
       }
     }
+    
+
      function showStatistics() {
       document.getElementById('canvas').style.display = 'block';
       const ctx = document.getElementById('chart').getContext('2d');
@@ -162,4 +171,15 @@ Images.prototype.generateExtension = function(){
         options: {},
       });
     }
-    
+    function showProductsItem(){
+      let productStored=JSON.stringify(Images.all);
+      localStorage.setItem('product',productStored);
+    }
+    function getLocalStorageItem() {
+      let data = localStorage.getItem('product');
+      let order = JSON.parse(data);
+      if (order !== null) {
+          Images.all = order;
+      }
+  }
+  
