@@ -16,6 +16,7 @@ let indexOne;
 let indexTwo;
 let indexThree;
 let attempt=25;
+let Stored;
 let imageId= [firstImage,secondImage,thirdImage];
 
   Images.all = [];
@@ -55,6 +56,16 @@ Images.prototype.generateExtension = function(){
   function randomNumber() {
     return Math.floor(Math.random() * Images.all.length);
   };
+
+  
+if (localStorage.getItem('storedProducts') !== null) {
+
+  Images.all = JSON.parse(localStorage.getItem('storedProducts'));
+  Stored = Images.all;
+  // console.log('Images stored', Images.all);
+  // console.log('copy Stored', Stored);
+
+}
   
   function render(){
     indexOne=randomNumber();
@@ -89,6 +100,7 @@ Images.prototype.generateExtension = function(){
         section.removeEventListener('click',clickHandle);
         button.addEventListener('click',result);
       }
+      localStorage.setItem('storedProducts', JSON.stringify(Images.all));
     }
     
     function result(){
